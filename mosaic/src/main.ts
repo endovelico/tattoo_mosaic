@@ -12,13 +12,19 @@ if (!mosaic) {
   throw new Error("Mosaic container not found");
 }
 
-const images: ImageData[] = Array.from(
+// Create image paths
+const imagePaths = Array.from(
   { length: 60 },
-  (_, index) => ({
-    id: index,
-    src: `https://picsum.photos/seed/mosaic-${index}/800/600`,
-  })
+  (_, index) => `/images/image${index + 1}.jpg`
 );
+
+// Shuffle images randomly
+imagePaths.sort(() => Math.random() - 0.5);
+
+const images: ImageData[] = imagePaths.map((src, index) => ({
+  id: index,
+  src,
+}));
 
 const tiles: ImageTile[] = [];
 
