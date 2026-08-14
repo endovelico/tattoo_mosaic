@@ -38,3 +38,49 @@ body {
   user-select: none;
   pointer-events: none;
 }
+
+#enter-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: rgba(0, 0, 0, 0.72);
+
+  opacity: 1;
+  transition: opacity 0.5s ease;
+  
+}
+
+#enter-overlay.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.enter-content {
+  text-align: center;
+  color: white;
+}
+
+.enter-content h1 {
+  margin: 0;
+
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(3rem, 6vw, 6rem);
+  font-weight: 700;
+
+  text-shadow:
+    0 3px 8px rgba(0, 0, 0, 0.9);
+}
+
+.enter-line {
+  width: 165px;
+  height: 5px;
+
+  margin: 35px auto 0;
+
+  background: white;
+}

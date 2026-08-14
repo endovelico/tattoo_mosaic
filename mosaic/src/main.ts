@@ -12,7 +12,39 @@ if (!mosaic) {
   throw new Error("Mosaic container not found");
 }
 
-// Create image paths
+/* -----------------------------
+   Enter Overlay
+----------------------------- */
+
+const enterOverlay = document.querySelector<HTMLElement>("#enter-overlay");
+
+if (!enterOverlay) {
+  throw new Error("Enter overlay not found");
+}
+
+function closeEnterOverlay(): void {
+  enterOverlay.classList.add("hidden");
+
+  // Remove it from the DOM after the fade-out animation
+  setTimeout(() => {
+    enterOverlay.remove();
+  }, 500);
+}
+
+function handleKeyDown(event: KeyboardEvent): void {
+  if (event.key === "Enter") {
+    closeEnterOverlay();
+    document.removeEventListener("keydown", handleKeyDown);
+  }
+}
+
+document.addEventListener("keydown", handleKeyDown);
+
+
+/* -----------------------------
+   Create image paths
+----------------------------- */
+
 const imagePaths = Array.from(
   { length: 60 },
   (_, index) => `/images/image${index + 1}.jpg`
@@ -25,6 +57,11 @@ const images: ImageData[] = imagePaths.map((src, index) => ({
   id: index,
   src,
 }));
+
+
+/* -----------------------------
+   Create tiles
+----------------------------- */
 
 const tiles: ImageTile[] = [];
 
@@ -46,7 +83,12 @@ images.forEach((image) => {
   tiles.push(tile);
 });
 
-function layout() {
+
+/* -----------------------------
+   Layout
+----------------------------- */
+
+function layout(): void {
   const positions = generateLayout(
     images.length,
     window.innerWidth,
@@ -62,9 +104,14 @@ layout();
 
 window.addEventListener("resize", layout);
 
+
+/* -----------------------------
+   Mouse interaction
+----------------------------- */
+
 const interaction = new MouseInteraction(tiles);
 
-function animate() {
+function animate(): void {
   interaction.update();
 
   requestAnimationFrame(animate);
